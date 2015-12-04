@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 // Java extension packages
 
@@ -347,26 +348,29 @@ public class AddressBook extends JFrame {
                
             // Execute search. If found, AddressBookEntry
             // is returned containing data.
-            AddressBookEntry person = database.findPerson( 
-               lastName );
+            ArrayList<AddressBookEntry> People = database.findPerson(
+                    lastName );
+            int x=People.size();
+            for(int i=0;i<x;i++) {
+               AddressBookEntry person = People.get(i);
 
-            if ( person != null ) {
-                  
-               // create window to display AddressBookEntry
-               AddressBookEntryFrame entryFrame =
-                  createAddressBookEntryFrame();
-                 
-               // set AddressBookEntry to display
-               entryFrame.setAddressBookEntry( person );
-                  
-               // display window
-               desktop.add( entryFrame );
-               entryFrame.setVisible( true );
+               if (person != null) {
+
+                  // create window to display AddressBookEntry
+                  AddressBookEntryFrame entryFrame =
+                          createAddressBookEntryFrame();
+
+                  // set AddressBookEntry to display
+                  entryFrame.setAddressBookEntry(person);
+
+                  // display window
+                  desktop.add(entryFrame);
+                  entryFrame.setVisible(true);
+               } else
+                  JOptionPane.showMessageDialog(desktop,
+                          "Entry with last name \"" + lastName +
+                                  "\" not found in address book");
             }
-            else
-               JOptionPane.showMessageDialog( desktop, 
-                  "Entry with last name \"" + lastName + 
-                  "\" not found in address book" );
             
          }  // end "if ( lastName == null )"
          

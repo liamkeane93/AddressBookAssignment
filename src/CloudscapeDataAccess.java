@@ -5,6 +5,7 @@
 
 // Java core packages
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CloudscapeDataAccess 
    implements AddressBookDataAccess {
@@ -129,6 +130,7 @@ public class CloudscapeDataAccess
    // exception is passed via this class's constructor back to 
    // the AddressBook application so the application can display
    // an error message and terminate.
+
    private void connect() throws Exception
    {
       // Cloudscape database driver class name
@@ -150,44 +152,48 @@ public class CloudscapeDataAccess
       // complete and commit transactions that complete properly.
       connection.setAutoCommit( false );      
    }
+
    
    // Locate specified person. Method returns AddressBookEntry
    // containing information.
-   public AddressBookEntry findPerson( String lastName )
+   public ArrayList<AddressBookEntry> findPerson( String lastName )
    {
       try {
+         ArrayList<AddressBookEntry> People = new ArrayList<>();
          // set query parameter and execute query
-         sqlFind.setString( 1, lastName );
+         sqlFind.setString(1, lastName);
          ResultSet resultSet = sqlFind.executeQuery();
 
          // if no records found, return immediately
-         if ( !resultSet.next() ) 
-            return null;
+         while (resultSet.next()) {
 
-         // create new AddressBookEntry
-         AddressBookEntry person = new AddressBookEntry( 
-            resultSet.getInt( 1 ) );
-         
-         // set AddressBookEntry properties
-         person.setFirstName( resultSet.getString( 2 ) );
-         person.setLastName( resultSet.getString( 3 ) );
 
-         person.setAddressID( resultSet.getInt( 4 ) );
-         person.setAddress1( resultSet.getString( 5 ) );
-         person.setAddress2( resultSet.getString( 6 ) );
-         person.setAddress3(resultSet.getString(7));
-         person.setCity( resultSet.getString( 8 ) );
-         person.setCounty(resultSet.getString(9));
-         person.setPostcode(resultSet.getString(10));
+            // create new AddressBookEntry
+            AddressBookEntry person = new AddressBookEntry(
+                    resultSet.getInt(1));
 
-         person.setPhoneID( resultSet.getInt( 11 ) );
-         person.setPhoneNumber( resultSet.getString( 12 ) );
+            // set AddressBookEntry properties
+            person.setFirstName(resultSet.getString(2));
+            person.setLastName(resultSet.getString(3));
 
-         person.setEmailID( resultSet.getInt( 13 ) );
-         person.setEmailAddress( resultSet.getString( 14 ) );
- 
-         // return AddressBookEntry
-         return person;
+            person.setAddressID(resultSet.getInt(4));
+            person.setAddress1(resultSet.getString(5));
+            person.setAddress2(resultSet.getString(6));
+            person.setAddress3(resultSet.getString(7));
+            person.setCity(resultSet.getString(8));
+            person.setCounty(resultSet.getString(9));
+            person.setPostcode(resultSet.getString(10));
+
+            person.setPhoneID(resultSet.getInt(11));
+            person.setPhoneNumber(resultSet.getString(12));
+
+            person.setEmailID(resultSet.getInt(13));
+            person.setEmailAddress(resultSet.getString(14));
+            People.add(person);
+            // return AddressBookEntry
+
+         }
+         return People;
       }
          
       // catch SQLException
