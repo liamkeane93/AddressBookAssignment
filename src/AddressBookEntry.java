@@ -12,7 +12,9 @@ public class AddressBookEntry {
    private String county = "";
    private String postcode = "";
    private String phoneNumber = "";
+   private String landLine = "";
    private String emailAddress = "";
+   private String altEmailAddress = "";
    private int personID;
    private int addressID;
    private int phoneID;
@@ -137,6 +139,18 @@ public class AddressBookEntry {
       return phoneNumber;
    }
 
+   // get person's phone number
+   public String getLandLine()
+   {
+      return landLine;
+
+   }
+   public void setLandLine( String landLine )
+   {
+     this.landLine=landLine;
+
+   }
+
    // set person's email address
    public void setEmailAddress( String email )
    {
@@ -148,6 +162,18 @@ public class AddressBookEntry {
    {
       return emailAddress;
    }
+   ///////////
+   public void setAltEmailAddress( String altEmailAddress)
+   {
+      this.altEmailAddress = altEmailAddress;
+   }
+
+   // get person's email address
+   public String getALtEmailAddress()
+   {
+      return altEmailAddress;
+   }
+
    
    // get person's ID
    public int getPersonID()
